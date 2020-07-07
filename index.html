@@ -24,6 +24,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.2.0/uuidv3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.2.0/uuidv4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.2.0/uuidv5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
     <style>
         * {
             margin: 0px auto;
@@ -65,7 +66,7 @@
                 </td>
             </tr>
             <tr style="text-align: center;">
-                <td colspan="2"><button v-on:click="generate">Regenerate</button></td>
+                <td colspan="2"><button v-on:click="generate">Regenerate</button> | <button v-on:click="download">Download Text</button></td>
             </tr>
         </table>
         <div>
@@ -112,6 +113,9 @@
                                     break;
                             }
                         }
+                    },
+                    download: function() {
+                        download(new Blob([this.list.join('\n')]), `${this.version}.txt`, 'text/plain');
                     }
                 }
             });
