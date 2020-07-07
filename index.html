@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-TW" xml:lang="zh-TW" dir="<$BlogLanguageDirection$>">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <link href='favicon.ico' rel='icon' type='image/x-icon' />
+    <title>
+        <$BlogPageTitle$>
+    </title>
+    <script type="text/javascript">
+        //<![CDATA[
+        (function () { //No country redirect
+            if (document.URL.match(/\.blogspot\.(com\...\/|..\/)/)) {
+                var URL = document.URL;
+                URL = URL.replace(URL.match(/\.blogspot\.(com\...\/|..\/)/)[0], ".blogspot.com\/ncr\/");
+                document.location = URL;
+            }
+        })()
+//]]>
+        /* </head> */</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.2.0/uuidv3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.2.0/uuidv4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.2.0/uuidv5.min.js"></script>
+    <style>
+        * {
+            margin: 0px auto;
+        }
+        #app div, h1  {
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<!-- <body> -->
+
+<body>
+    <h1>UUIDBoxy</h1>
+    <div id="app">
+        <table style="table-layout:fixed;border: 1px solid blcak" cellpadding="1" cellspacing="1" frame="border" rules="all">
+            <tr>
+                <td>Version</td>
+                <td>
+                    <select v-on:change="generate" v-model="version">
+                        <option value="uuidv1">uuidv1</option>
+                        <option value="uuidv3">uuidv3</option>
+                        <option value="uuidv4">uuidv4</option>
+                        <option value="uuidv5">uuidv5</option>
+                    </select>
+                </td>
+            </tr>
+            <tr v-if="version === 'uuidv3'">
+                <td>Namespace</td>
+                <td>
+                    <input type="text" v-on:change="generate" v-model="namespace" value={{namespace}} size="30" />
+                </td>
+            </tr>
+            <tr>
+                <td>Count</td>
+                <td>
+                    <input type="range" v-on:change="generate" v-model="count" min="1" max="100" step="1">
+                    <input type="text" v-on:change="generate" v-model="count" value={{count}} size="1" />
+                </td>
+            </tr>
+            <tr style="text-align: center;">
+                <td colspan="2"><button v-on:click="generate">Regenerate</button></td>
+            </tr>
+        </table>
+        <div>
+            <table>
+                <tr v-for="(item, index) in list" :key="item">
+                    <td>{{index + 1}}</td>
+                    <td>
+                        <input type="text" v-model="item" value={{item}} size="50" onClick="select()" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            let Vue = window.Vue;
+            new Vue({
+                el: '#app',
+                data: {
+                    namespace: 'https://qqboxy.com/',
+                    version: 'uuidv4',
+                    count: 1,
+                    list: [uuidv4()]
+                },
+                methods: {
+                    generate: function (event) {
+                        this.list = [];
+                        for (let i = 0; i < this.count; i++) {
+                            switch (this.version) {
+                                case 'uuidv1':
+                                    this.list.push(uuidv1());
+                                    break;
+                                case 'uuidv3':
+                                    this.list.push(uuidv3(this.namespace, uuidv3.URL));
+                                    break;
+                                case 'uuidv4':
+                                    this.list.push(uuidv4());
+                                    break;
+                                case 'uuidv5':
+                                    this.list.push(uuidv5(this.namespace, uuidv3.URL));
+                                    break;
+                                default:
+                                    this.list.push(uuidv4());
+                                    break;
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    <!-- </body> -->
+</body>
+
+</html>
