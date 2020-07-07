@@ -52,7 +52,7 @@
                     </select>
                 </td>
             </tr>
-            <tr v-if="version === 'uuidv3'">
+            <tr v-if="version === 'uuidv3' || version === 'uuidv5'">
                 <td>Namespace</td>
                 <td>
                     <input type="text" v-on:change="generate" v-model="namespace" value={{namespace}} size="30" />
@@ -106,7 +106,7 @@
                                     this.list.push(uuidv4());
                                     break;
                                 case 'uuidv5':
-                                    this.list.push(uuidv5(this.namespace, uuidv3.URL));
+                                    this.list.push(uuidv5(this.namespace, uuidv5.URL));
                                     break;
                                 default:
                                     this.list.push(uuidv4());
